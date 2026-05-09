@@ -17,7 +17,7 @@ $𝓐_t$ of the sample space $\Omega$.
 This implies
 
 $$
-X_t D_t = (X_u D_u + \sum_{t < s \le u} C_u D_u)|_{𝓐_t}\quad\mathtext{(1)}
+X_t D_t = (X_u D_u + \sum_{t < s \le u} C_u D_u)|_{𝓐_t}\quad\text{(1)}
 $$
 
 In the case of zero cash flows this says $(X_t D_t)$
@@ -48,7 +48,7 @@ $$
 A consequence of these definitions is
 
 $$
-V_t D_t = (V_u D_u + \sum_{t < s \le u} A_u D_u)|_{𝓐_t}\quad\mathtext{(2)}
+V_t D_t = (V_u D_u + \sum_{t < s \le u} A_u D_u)|_{𝓐_t}\quad\text{(2)}
 $$
 
 Note how price in (1) correpond to value in (2)
@@ -83,7 +83,7 @@ $$
 If $g\in B(S)$ then $M_g\colon B(S)\to B(S)$ given by
 multiplication 
 $M_g f = fg$ is bounded. 
-Its adjoint $M_g^*\colon ba(S)\to ba(S)$
+Its adjoint $M_g*\colon ba(S)\to ba(S)$
 is used to define muliplication of a measure by a bounded
 function $g\mu = M_g^*\mu$.
 
