@@ -83,7 +83,7 @@ $$
 If $g\in B(S)$ then $M_g\colon B(S)\to B(S)$ given by
 multiplication 
 $M_g f = fg$ is bounded. 
-Its adjoint $M_g*\colon ba(S)\to ba(S)$
+Its adjoint $M_g^*\colon ba(S)\to ba(S)$
 is used to define muliplication of a measure by a bounded
 function $g\mu = M_g^*\mu$.
 
