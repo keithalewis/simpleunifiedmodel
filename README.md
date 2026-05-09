@@ -17,7 +17,7 @@ $𝓐_t$ of the sample space $\Omega$.
 This implies
 
 $$
-\tag{(1)} X_t D_t = (X_u D_u + \sum_{t < s \le u} C_u D_u)|_{𝓐_t}
+X_t D_t = (X_u D_u + \sum_{t < s \le u} C_u D_u)|_{𝓐_t}\quad\mathtext{(1)}
 $$
 
 In the case of zero cash flows this says $(X_t D_t)$
@@ -48,10 +48,13 @@ $$
 A consequence of these definitions is
 
 $$
-V_t D_t = (V_u D_u + \sum_{t < s \le u} A_u D_u)|_{𝓐_t}
+V_t D_t = (V_u D_u + \sum_{t < s \le u} A_u D_u)|_{𝓐_t}\quad\mathtext{(2)}
 $$
 
-Trading strategies create synthetic market instruments.
+Note how price in (1) correpond to value in (2)
+and cash flows in (1) correpond amount in (2)
+
+**Trading strategies create synthetic market instruments.**
 
 If a cash-settled derivative pays $\hat{A_j}$ at
 increasing stopping times $\hat{\tau}_j$ then its value
