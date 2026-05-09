@@ -64,11 +64,11 @@ $$
 V_t D_t = \sum_{\hat{\tau}_j > t} \hat{A_j} D_{\hat{\tau}_j}.
 $$
 
-_if_ we can find a trading strategy with $A_t = \hat{A}_j 1(t = \hat{\tau}_j$
+_if_ we can find a trading strategy with $A_t - \hat{A}_j 1(t = \hat{\tau}_j) = 0$
 for all $t\in T$. [^1]
 
 [^1]: In general this is not possible. An area for future research
-is to find trading strategies $A_t - \hat{A}_j 1(t = \hat{\tau}_j$
+is to find trading strategies that make the difference
 white noise with miniumum variance.
 
 ## Implementation
