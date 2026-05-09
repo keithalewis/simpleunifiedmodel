@@ -7,7 +7,7 @@ $$
 X_t D_t = X_0 M_t - \sum_{t < s \le u} C_s D_s
 $$
 
-where $M_t$ is a martingale measure indexed by $I$$
+where $M_t$ is a martingale measure indexed by $I$
 and $D_t$ is a positive measure.
 
 If a cash-settled derivative pays $\hat{A_j}$ at
