@@ -11,11 +11,11 @@ where $M_t$ is a martingale measure indexed by $I$
 and $D_t$ is a positive measure.
 
 If a cash-settled derivative pays $\hat{A_j}$ at
-increasing stopping times $\hat{\tau}_t$ then its value
+increasing stopping times $\hat{\tau}_j$ then its value
 at time $t$ is
 
 $$
-V_t D_t = \sum_{\hat{\tau}_j > t} \hat{A_j} D_{\hat{\tau}_j.
+V_t D_t = \sum_{\hat{\tau}_j > t} \hat{A_j} D_{\hat{\tau}_j}.
 $$
 
 ...
