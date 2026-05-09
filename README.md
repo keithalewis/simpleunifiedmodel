@@ -64,6 +64,15 @@ $$
 V_t D_t = \sum_{\hat{\tau}_j > t} \hat{A_j} D_{\hat{\tau}_j}.
 $$
 
+_if_ we can find a trading strategy with $A_t = \hat{A}_j 1(t = \hat{\tau}_j$
+for all $t\in T$. [^1]
+
+[^1]: In general this is not possible. An area for future research
+is to find trading strategies $A_t - \hat{A}_j 1(t = \hat{\tau}_j$
+white noise with miniumum variance.
+
+## Implementation
+
 We assume prices, cash flows, and shares are bounded and
 the measures are finitely additive. Recall the vector
 dual space of bounded functions on $S$, $B(S)$ is isometrically
@@ -83,9 +92,9 @@ $$
 If $g\in B(S)$ then $M_g\colon B(S)\to B(S)$ given by
 multiplication 
 $M_g f = fg$ is bounded. 
-Its adjoint $M^*_g\colon ba(S)\to ba(S)$
+Its adjoint $(M_g)^*\colon ba(S)\to ba(S)$
 is used to define muliplication of a measure by a bounded
-function $g\mu = M^*_g\mu$.
+function $g\mu = (M_g)^*\mu$.
 
 We first consider the problem of a European derivative paying
 $\hat{A}$ at non random time $\hat{\tau}$.
