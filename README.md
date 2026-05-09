@@ -17,7 +17,7 @@ $𝓐_t$ of the sample space $\Omega$.
 This implies
 
 $$
-X_t D_t = (X_u D_u + \sum_{t < s \le u} C_u D_u)|_{𝓐_t}
+\tag{(1)} X_t D_t = (X_u D_u + \sum_{t < s \le u} C_u D_u)|_{𝓐_t}
 $$
 
 In the case of zero cash flows this says $(X_t D_t)$
@@ -48,8 +48,10 @@ $$
 A consequence of these definitions is
 
 $$
-V_t D_t = X_0 M_t - \sum_{t < s \le u} C_s D_s
+V_t D_t = (V_u D_u + \sum_{t < s \le u} A_u D_u)|_{𝓐_t}
 $$
+
+Trading strategies create synthetic market instruments.
 
 If a cash-settled derivative pays $\hat{A_j}$ at
 increasing stopping times $\hat{\tau}_j$ then its value
@@ -77,7 +79,8 @@ $$
 
 If $g\in B(S)$ then $M_g\colon B(S)\to B(S)$ given by
 multiplication 
-$M_g f = fg$ is bounded. Its adjoin $M_g^*\colon ba(S)\to ba(S)$
+$M_g f = fg$ is bounded. 
+Its adjoint $M_g^*\colon ba(S)\to ba(S)$
 is used to define muliplication of a measure by a bounded
 function $g\mu = M_g^*\mu$.
 
