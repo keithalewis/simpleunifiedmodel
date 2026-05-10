@@ -1,7 +1,7 @@
 # Simple Unified Model.
 
-Every arbitrage-free model of prices $(X_t)_{t\in T}$ and cash flows
-$(C_t)_{t\in T}$ indexed by intruments $I$ has the form
+Every arbitrage-free model of prices $(X_t)$ and cash flows
+$(C_t)$ for $t\in T$ indexed by intruments $I$ has the form
 
 $$
 X_t D_t = X_0 M_t - \sum_{s\le t} C_s D_s
@@ -58,10 +58,9 @@ and cash flows in (1) correpond amount in (2)
 
 If a cash-settled derivative pays $\hat{A_j}$ at
 increasing stopping times $\hat{\tau}_j$ then its value
-at time $t$ is
-
+at time $t$ is determined by
 $$
-V_t D_t = \sum_{\hat{\tau}_j > t} \hat{A_j} D_{\hat{\tau}_j}.
+V_t D_t = (\sum_{\hat{\tau}_j > t} \hat{A_j} D_{\hat{\tau}_j})|_{𝓐_t}.\quad\text{(3)}
 $$
 
 _if_ we can find a trading strategy with $A_t - \hat{A}_j 1(t = \hat{\tau}_j) = 0$
@@ -71,11 +70,22 @@ for all $t\in T$. [^1]
 is to find trading strategies that make the difference
 white noise with miniumum variance.
 
+Since $V_t = (\Delta_t + \Gamma_t)\cdot X_t$ we have the
+Frechet derivative $D_{X_t} V_t \Delta_t + \Gamma_t$.
+Since the position at time 0 is $\Delta_0 = 0$ this gives us
+our first trade $\Gamma_0 D_{X_0} V_0$.
+At times greater than 0 we have $\Gamma_t = D_{X_t} V_t - \Delta_t$.
+Since $\Delta_t$ is the accumulation of prior tradesd, 
+this determined $\Gamma_t$. What this _does not_ determine is
+when to trade. If we trade at positive integral multiples of some
+fixed $\Delta t$ and let $\Delta t \to 0$ then we get the usual
+Black-Scholes/Merton continuous time delta hedging strategy.
+
 ## Implementation
 
 We assume prices, cash flows, and shares are bounded and
 the measures are finitely additive. Recall the vector
-dual space of bounded functions on $S$, $B(S)$ is isometrically
+dual space of bounded functions on $S$, $B(S)$, is isometrically
 isomorphic to the vector space of finitely additive measures
 on $S$, $ba(S)$, with the dual pairing 
 
@@ -95,6 +105,10 @@ $M_g f = fg$ is bounded.
 Its adjoint $M_g^*\colon ba(S)\to ba(S)$
 is used to define muliplication of a measure by a bounded
 function $g\mu = M_g^\*\mu$.
+
+We each term in the sum (3) has the form $(f\mu)(A)$ for $A\in 𝓐$
+where $f\in B(ℬ)$ and $\mu\in ba(ℬ)$ where $ℬ$ is a refinement of $𝓐$.
+
 
 We first consider the problem of a European derivative paying
 $\hat{A}$ at non random time $\hat{\tau}$.
