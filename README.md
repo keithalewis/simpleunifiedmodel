@@ -1,7 +1,7 @@
 # Simple Unified Model.
 
 Every arbitrage-free model of prices $(X_t)$ and cash flows
-$(C_t)$ for $t\in T$ indexed by intruments $I$ has the form
+$(C_t)$ for $t\in T$ indexed by instruments $I$ has the form
 
 $$
 X_t D_t = X_0 M_t - \sum_{s\le t} C_s D_s
@@ -12,7 +12,6 @@ and $(D_t)$ are positive measures.
 
 Partial information at time $t$ is modeled by a partition
 $𝓐_t$ of the sample space $\Omega$. 
-
 
 This implies
 
@@ -106,9 +105,17 @@ Its adjoint $M_g^*\colon ba(S)\to ba(S)$
 is used to define muliplication of a measure by a bounded
 function $g\mu = M_g^\*\mu$.
 
-We each term in the sum (3) has the form $(f\mu)(A)$ for $A\in 𝓐$
+Each term in the sum (3) has the form $(f\mu)(A)$ for $A\in 𝓐$
 where $f\in B(ℬ)$ and $\mu\in ba(ℬ)$ where $ℬ$ is a refinement of $𝓐$.
+We have
 
+$$
+\int_A f d\mu = \sum\{f(B)\mu(B)\mid B\subseteq A, B\in ℬ\}
+$$
+
+### Required Functions
+
+`atoms(A:𝓐, B:ℬ) ->  Iter[ℬ]`
 
 We first consider the problem of a European derivative paying
 $\hat{A}$ at non random time $\hat{\tau}$.
