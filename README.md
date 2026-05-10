@@ -133,7 +133,7 @@ $\text{meas}\colon B(ℬ)\times ba(ℬ)\to ba(𝒜)$.
 This can be implemented as
 
 $$
-\text{meas}(f, \mu)(A) = \sum_{B\in\text{atoms}_ℬ(A) f(B) \mu(B).
+\text{meas}(f, \mu)(A) = \sum_{B\in\text{atoms}}_ℬ(A) f(B) \mu(B).
 $$
 
 ## European Option
