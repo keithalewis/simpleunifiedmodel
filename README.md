@@ -33,6 +33,10 @@ $$
 \Delta_t = \sum_{\tau_j < t} \Gamma_j.
 $$
 
+Note the strict inequality. It takes some time for a trade to settle into a position.
+Not also that $\Delta_t + \Gamma_t = \Delta_{t + \epsilon}$
+for sufficiently small $\epsilon > 0$.
+
 The value (or mark-to-market) of the
 strategy at time $t$ is its liquidation value
 at current market prices
@@ -41,11 +45,8 @@ $$
 V_t = (\Delta_t + \Gamma_t)\cdot X_t
 $$
 
-Note $\Delta_t + \Gamma_t = \Delta_{t + \epsilon}$ for
-sufficiently small $\epsilon > 0$.
-
-The amount associated with trading is cash flows
-proportional to existing position minus the cost of the trade just
+The amount associated with trading is receiving cash flows
+proportional to existing position and paying the cost of the trade just
 executed.
 
 $$
