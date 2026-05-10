@@ -11,12 +11,12 @@ where $(M_t)$ is a martingale measure indexed by $I$
 and $(D_t)$ are positive measures.
 
 Partial information at time $t$ is modeled by a partition
-$𝓐_t$ of the sample space $\Omega$. 
+$𝒜_t$ of the sample space $\Omega$. 
 
 This implies
 
 $$
-X_t D_t = (X_u D_u + \sum_{t < s \le u} C_u D_u)|_{𝓐_t}\quad\text{(1)}
+X_t D_t = (X_u D_u + \sum_{t < s \le u} C_u D_u)|_{𝒜_t}\quad\text{(1)}
 $$
 
 In the case of zero cash flows this says $(X_t D_t)$
@@ -47,7 +47,7 @@ $$
 A consequence of these definitions is
 
 $$
-V_t D_t = (V_u D_u + \sum_{t < s \le u} A_u D_u)|_{𝓐_t}\quad\text{(2)}
+V_t D_t = (V_u D_u + \sum_{t < s \le u} A_u D_u)|_{𝒜_t}\quad\text{(2)}
 $$
 
 Note how price in (1) correpond to value in (2)
@@ -59,7 +59,7 @@ If a cash-settled derivative pays $\hat{A_j}$ at
 increasing stopping times $\hat{\tau}_j$ then its value
 at time $t$ is determined by
 $$
-V_t D_t = (\sum_{\hat{\tau}_j > t} \hat{A_j} D_{\hat{\tau}_j})|_{𝓐_t}.\quad\text{(3)}
+V_t D_t = (\sum_{\hat{\tau}_j > t} \hat{A_j} D_{\hat{\tau}_j})|_{𝒜_t}.\quad\text{(3)}
 $$
 
 _if_ we can find a trading strategy with $A_t - \hat{A}_j 1(t = \hat{\tau}_j) = 0$
@@ -105,8 +105,8 @@ Its adjoint $M_g^*\colon ba(S)\to ba(S)$
 is used to define muliplication of a measure by a bounded
 function $g\mu = M_g^\*\mu$.
 
-Each term in the sum (3) has the form $(f\mu)(A)$ for $A\in 𝓐$
-where $f\in B(ℬ)$ and $\mu\in ba(ℬ)$ where $ℬ$ is a refinement of $𝓐$.
+Each term in the sum (3) has the form $(f\mu)(A)$ for $A\in 𝒜$
+where $f\in B(ℬ)$ and $\mu\in ba(ℬ)$ where $ℬ$ is a refinement of $𝒜$.
 We have
 
 $$
@@ -115,7 +115,7 @@ $$
 
 ### Required Functions
 
-`atoms(A:𝓐, B:ℬ) ->  Iter[ℬ]`
+`atoms(A:𝒜, B:ℬ) ->  Iter[ℬ]`
 
 We first consider the problem of a European derivative paying
 $\hat{A}$ at non random time $\hat{\tau}$.
