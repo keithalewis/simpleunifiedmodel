@@ -34,7 +34,7 @@ $$
 $$
 
 Note the strict inequality. It takes some time for a trade to settle into a position.
-Not also that $\Delta_t + \Gamma_t = \Delta_{t + \epsilon}$
+Note also that $\Delta_t + \Gamma_t = \Delta_{t + \epsilon}$
 for sufficiently small $\epsilon > 0$.
 
 The value (or mark-to-market) of the
@@ -105,7 +105,7 @@ $$
 If $S$ is finite then
 
 $$
-\langle f,\mu\rangle = \sum_{s\in S} f(s) \mu(\{s\}).
+\int_S f d\mu = \sum_{s\in S} f(s) \mu(\{s\}).
 $$
 
 If $g\in B(S)$ then $M_g\colon B(S)\to B(S)$ given by
@@ -136,6 +136,25 @@ This can be implemented as
 $$
 \text{meas}(f, \mu)(A) = \sum_{B\in\text{atoms}_ℬ(A)} f(B) \mu(B).
 $$
+
+## Binomial Model
+
+The sample space $\Omega = \{0,1\}^𝑵$ is the set of all sequences of 0's and 1's
+and $𝑵 = \{0, 1, 2, \ldots\}$. Given $\omega\in\Omega$
+define $V_n(\omega) = \sum_{j\le n} \omega_j$. There is a probability
+measure on $\Omega$ with $P(V_n = k) = C(n,k)/2^n$ where
+$C(n,k) = n!/k!(n - k)!$. Define random walks $W_n = 2V_n - n$.
+Note $W_n$ goes from $-n$ to $n$ in steps of size 2 as
+$V_n$ goes from $0$ to $n$. We will use the fact $W_n P$ is a martingale measure.
+
+The partition at time $n$ is $𝒜_n = {0,1,\dots,n}$. For $j\in 𝒜_n$
+this represents the information $V_n = j$.
+
+If $V_k = i$ then the atoms of $𝒜_n$ given this information
+are $V_n = j$ for $j = i, i + 1, \ldots, i + (n - i)$.
+
+If $W_k = i$ then the atoms of $𝒜_n$ given this information
+are $W_n = j$ for $j = i - (n - i), i - (n - 1) + 2, \ldots, i + (n - i)$.
 
 ## European Option
 
