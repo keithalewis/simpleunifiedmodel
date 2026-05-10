@@ -27,7 +27,12 @@ value of future cash flows (Graham-Todd).
 
 Given a trading strategy purchasing $(\Gamma_j)$ shares
 at increasing stopping times $\tau_j$ the position
-at time $t$ is $\Delta_t = \sum_{\tau_j < t} \Gamma_j$.
+at time $t$ is 
+
+$$
+\Delta_t = \sum_{\tau_j < t} \Gamma_j.
+$$
+
 The value (or mark-to-market) of the
 strategy at time $t$ is its liquidation value
 at current market prices
@@ -36,8 +41,11 @@ $$
 V_t = (\Delta_t + \Gamma_t)\cdot X_t
 $$
 
-and the amount associated with trading is cash flows
-proportional to position minus the cost of the trade just
+Note $\Delta_t + \Gamma_t = \Delta_{t + \epsilon}$ for
+sufficiently small $\epsilon > 0$.
+
+The amount associated with trading is cash flows
+proportional to existing position minus the cost of the trade just
 executed.
 
 $$
@@ -117,10 +125,18 @@ $$
 ### Required Functions
 
 Return all atoms of $ℬ$ contained in $A\in 𝒜$  
-$\text{atoms}\colon 𝒜 \times ℬ\to 2^ℬ$.
+$\text{atoms}_ℬ\colon 𝒜\to 2^ℬ$.
 
-Integral of $f\mu$ over $A\in 𝒜$  
-$\text{int}\colon B(ℬ)\times ba(ℬ)\to ba(𝒜)$.
+The measure $f\mu\in ba(𝒜)$  
+$\text{meas}\colon B(ℬ)\times ba(ℬ)\to ba(𝒜)$.
+
+This can be implemented as
+
+$$
+\text{meas}(f, \mu)(A) = \sum_{B\in\text{atoms}_ℬ(A) f(B) \mu(B).
+$$
+
+## European Option
 
 We first consider the problem of a European derivative paying
 $\hat{A}$ at non random time $\hat{\tau}$.
