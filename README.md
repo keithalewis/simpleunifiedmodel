@@ -116,8 +116,11 @@ $$
 
 ### Required Functions
 
-Return all atoms of $ℬ$ contained in $A\in 𝒜$
-`atoms(A: 𝒜, ℬ): \pi(ℬ)`
+Return all atoms of $ℬ$ contained in $A\in 𝒜$  
+$\text{atoms}\colon 𝒜 \times ℬ\to 2^ℬ$.
+
+Integral of $f\mu$ over $A\in 𝒜$  
+$\text{int}\colon B(ℬ)\times ba(ℬ)\to ba(𝒜)$.
 
 We first consider the problem of a European derivative paying
 $\hat{A}$ at non random time $\hat{\tau}$.
