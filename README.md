@@ -58,6 +58,7 @@ and cash flows in (1) correpond amount in (2)
 If a cash-settled derivative pays $\hat{A_j}$ at
 increasing stopping times $\hat{\tau}_j$ then its value
 at time $t$ is determined by
+
 $$
 V_t D_t = (\sum_{\hat{\tau}_j > t} \hat{A_j} D_{\hat{\tau}_j})|_{𝒜_t}.\quad\text{(3)}
 $$
@@ -110,13 +111,13 @@ where $f\in B(ℬ)$ and $\mu\in ba(ℬ)$ where $ℬ$ is a refinement of $𝒜$.
 We have
 
 $$
-\int_A f d\mu = \sum \{ f(B)\mu(B) \mid B\subseteq A, B\in ℬ \}
+\int_A f d\mu = \sum_{B\subseteq A, B\in ℬ} f(B)\mu(B)
 $$
 
 ### Required Functions
 
 Return all atoms of $ℬ$ contained in $A\in 𝒜$
-`atoms(A: 𝒜, ℬ): 𝒫(ℬ)`
+`atoms(A: 𝒜, ℬ): \pi(ℬ)`
 
 We first consider the problem of a European derivative paying
 $\hat{A}$ at non random time $\hat{\tau}$.
