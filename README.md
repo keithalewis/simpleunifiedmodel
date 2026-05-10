@@ -110,12 +110,13 @@ where $f\in B(ℬ)$ and $\mu\in ba(ℬ)$ where $ℬ$ is a refinement of $𝒜$.
 We have
 
 $$
-\int_A f d\mu = \sum\{f(B)\mu(B)\mid B\subseteq A, B\in ℬ\}
+\int_A f d\mu = \sum \{ f(B)\mu(B) \mid B\subseteq A, B\in ℬ \}
 $$
 
 ### Required Functions
 
-`atoms(A:𝒜, B:ℬ) ->  Iter[ℬ]`
+Return all atoms of $ℬ$ contained in $A\in 𝒜$
+`atoms(A: 𝒜, ℬ): 𝒫(ℬ)`
 
 We first consider the problem of a European derivative paying
 $\hat{A}$ at non random time $\hat{\tau}$.
