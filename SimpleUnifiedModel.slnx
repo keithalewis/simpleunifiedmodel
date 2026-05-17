@@ -4,5 +4,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="SimpleUnifiedModel.vcxproj" />
+  <Project Path="SimpleUnifiedModel.vcxproj" Id="666e8493-70c3-4c0c-b447-885963908368" />
 </Solution>

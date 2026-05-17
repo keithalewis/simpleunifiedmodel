@@ -1,17 +1,18 @@
 // binomial.h - Binomial model
 #pragma once
 #include <cmath>
+#include <cstdint>
 #include <concepts>
 #include <execution>
+#include <functional>
 #include <iterator>
 #include <numeric>
-#include <ranges>
 #include <stdexcept>
 //#include <type_traits>
 
 #define ENSURE_HASH(x) #x
 #define ENSURE_HASH_(x) ENSURE_HASH(x)
-#define ENSURE(x) { if (!x) throw std::runtime_error(ENSURE_HASH_(x)); }
+#define ENSURE(x) { if(!std::is_constant_evaluated() and !(x)) throw std::runtime_error(ENSURE_HASH_(x)); }
 
 namespace sum::binomial {
 
@@ -19,6 +20,7 @@ namespace sum::binomial {
 	template<std::signed_integral I>
 	constexpr I choose(I n, I k)
 	{
+		// TODO: memoize?
 		if (k < 0 or k > n) {
 			return 0; // error
 		}
@@ -36,92 +38,106 @@ namespace sum::binomial {
 	static_assert(choose(4, 2) == 6);
 	static_assert(choose(2, 4) == 0);
 
-
-	// iterator from i to j inclusive
+	// V_t = v in { 0, 1, ..., t }
 	template<std::signed_integral I>
-	class interval {
-		I b, e, i;
+	struct atom {
+		I t, v;
+		constexpr atom(I t, I v)
+			: t(t), v(v)
+		{
+			// ENSURE(v <= t)
+		}
+		constexpr bool operator==(const atom&) const = default;
+	};
+	static_assert(atom<signed>(0, 0) == atom<signed>(0, 0));
+	static_assert(atom<signed>(1, 0) != atom<signed>(2, 1));
+
+	// P(V_t = v) in binomial model
+	template<std::signed_integral I>
+	constexpr double P(atom<I> A)
+	{
+		return std::ldexp(choose(A.t, A.v), -A.t);
+	}
+
+	// Atoms of A_t contained in V_k = j.
+	// iterator from atom(t,j) to atom(t, j + (t - k)) in A_t
+	template<std::signed_integral I>
+	class atoms {
+		I t, j, k, i;
 	public:
 		using iterator_category = std::forward_iterator_tag;
-		using value_type = I;
+		using value_type = atom<I>;
 		using difference_type = std::ptrdiff_t;
-		using pointer = I*;
-		using reference = I&;
+		using pointer = atom<I>*;
+		using reference = atom<I>&;
 
-		constexpr interval(I b, I e)
-			: b(b), e(e), i(b)
+		constexpr atoms(I t, I j, I k, I i)
+			: t(t), j(j), k(k), i(i)
 		{
-			ENSURE(b <= e);
+			// ENSURE(k <= t);
 		}
+		constexpr atoms(I t, atom<I> A)
+			: atoms(t, A.v, A.t, A.v)
+		{ }
 
-		// lexicographic order on b, e, i, di
-		constexpr bool operator==(const interval&) const = default;
-		static_assert(interval(1, 2) == interval(1, 2));
-		static_assert(interval(1, 2) != interval(2, 1));
+		constexpr bool operator==(const atoms&) const = default;
 
-		constexpr interval begin() const noexcept
+		constexpr atoms begin() const noexcept
 		{
-			return interval(b, e, b);
+			return atoms(t, j, k, j);
 		}
-		constexpr interval end() const noexcept
+		constexpr atoms end() const noexcept
 		{
-			return interval(b, e, e + 1);
+			return atoms(t, j, k, j + (t - k) + 1);
 		}
 
 		constexpr operator bool() const
 		{
-			return b <= i and i <= e;
+			return j <= i and i <= j + (t - k);
 		}
-		constexpr I operator*() const
+		constexpr value_type operator*() const
 		{
-			return i;
+			return atom(t, i);
 		}
-		constexpr interval& operator++()
+		constexpr atoms& operator++()
 		{
 			++i;
+
+			return *this;
 		}
-		constexpr interval operator++(int)
+		constexpr atoms operator++(int)
 		{
 			auto temp = *this;
 			operator++();
+
 			return temp;
 		}
 	};
+	//static_assert(atoms(1, 2) == atoms(1, 2));
+	//static_assert(atoms(1, 2) != atoms(2, 1));
 
-	// V_k = n
-	template<std::signed_integral I>
-	class atom {
-		I k, n;
-	public:
-		constexpr atom(I k, I n)
-			: k(k), n(n)
-		{
-			ENSURE(k <= n);
-		}
-		double P() const
-		{
-			std::ldexp(choose(n, k), -n);
-		}
-	};
-
-	template<std::signed_integral I>
-	constexpr interval<I> atoms(I j, I k, I n)
+	// (f(V_n) P)|A_k
+	template<class F, std::signed_integral I> //, class Policy = std::execution::unsequenced_policy)
+	constexpr auto value(F f, I n)
 	{
-		ENSURE(0 <= j and j <= k and k <= n);
-		
-		return interval(j, j + n - k);
-	}
-
-	// int_A f V_n P
-	template<class F, std::signed_integral I, class Policy = std::execution::unsequenced_policy)
-	constexpr auto meas(F&& f, interval<I> A)
-	{
-		auto result = std::transform_reduce(
-			a.begin(), a.end(), b.begin(),
-			0,                    // initial value
-			std::plus{},          // accumulation operation
-			std::multiplies{}     // transform operation
-		);
+		return [f, n](atom<I> A) {
+			double v = 0;
+			for (atom<I> B : atoms(n, A)) {
+				v += f(B) * P(B);
+			}
+			return v;
+		};
+		/*
+		return [f, n](atom<I> A) { // A in A_k
+			atoms An(n, A);
+			auto unop = [f](atom<I> B) { return f(B) * P(B); };
+			return std::transform_reduce(An.begin(), An.end(), 0.0, std::plus<double>{}, unop);
+		};
+		*/
 	}
 
 } // namespace sum::binomial
+
+#undef ENSURE_HASH_
+#undef ENSURE_HASH
+#undef ENSURE

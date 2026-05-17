@@ -1,5 +1,13 @@
 # Simple Unified Model.
 
+Let $T$ be a set of trading times, $I$ the set of all instruments,
+and $\Omega$ the set of all possible outcomes.
+Let $(𝒜_t)_{t\in T})$ be partitions of $\Omega$ 
+representing information. For $t < u$ the functions $e_{tu}$
+takes atoms of $𝒜_t$ to a finite collections of atoms of $𝒜_u$
+where $\omega\in A\in 𝒜_t$ implies $\omega$ meets
+some atom of $e_{tu}(A)$
+
 Every arbitrage-free model of prices $(X_t)$ and cash flows
 $(C_t)$ for $t\in T$ indexed by instruments $I$ has the form
 
@@ -7,16 +15,10 @@ $$
 X_t D_t = X_0 M_t - \sum_{s\le t} C_s D_s
 $$
 
-where $(M_t)$ is a martingale measure indexed by $I$
-and $(D_t)$ are positive measures.
-
-Partial information at time $t$ is modeled by a partition
-$𝒜_t$ of the sample space $\Omega$. 
-
 This implies
 
 $$
-X_t D_t = (X_u D_u + \sum_{t < s \le u} C_u D_u)|_{𝒜_t}\quad\text{(1)}
+X_t D_t = (X_u D_u + \sum_{t < s \le u} C_s D_s)|_{𝒜_t}\quad\text{(1)}
 $$
 
 In the case of zero cash flows this says $(X_t D_t)$

@@ -192,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="binomial.h" />
+    <ClInclude Include="sum.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sum.cpp" />
