@@ -3,10 +3,7 @@
 Let $T$ be a set of trading times, $I$ the set of all instruments,
 and $\Omega$ the set of all possible outcomes.
 Let $(𝒜_t)_{t\in T})$ be partitions of $\Omega$ 
-representing information. For $t < u$ the functions $e_{tu}$
-takes atoms of $𝒜_t$ to a finite collections of atoms of $𝒜_u$
-where $\omega\in A\in 𝒜_t$ implies $\omega$ meets
-some atom of $e_{tu}(A)$
+representing information available at time $t$.
 
 Every arbitrage-free model of prices $(X_t)$ and cash flows
 $(C_t)$ for $t\in T$ indexed by instruments $I$ has the form
@@ -61,8 +58,8 @@ $$
 V_t D_t = (V_u D_u + \sum_{t < s \le u} A_u D_u)|_{𝒜_t}\quad\text{(2)}
 $$
 
-Note how price in (1) correpond to value in (2)
-and cash flows in (1) correpond amount in (2)
+Note how price in (1) correponds to value in (2)
+and cash flows in (1) correponds amount in (2)
 
 **Trading strategies create synthetic market instruments.**
 
