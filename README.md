@@ -166,6 +166,7 @@ We will use the fact $W_n P$ is a martingale measure.
 ## Brownian Motion
 
 Brownian motion is the limit of symmetric random walk.
+
 $$
 B_t = lim_{n\to\infty} W_{\floor{t/n}} 
 $$
