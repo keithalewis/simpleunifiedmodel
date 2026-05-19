@@ -7,6 +7,7 @@
 #include <functional>
 #include <iterator>
 #include <numeric>
+#include <ranges>
 #include <stdexcept>
 //#include <type_traits>
 
@@ -18,37 +19,34 @@ namespace sum::binomial {
 
 	// Number of ways to choose k items from a collection of n items
 	template<std::signed_integral I>
-	constexpr I choose(I n, I k)
-	{
-		// TODO: memoize?
-		if (k < 0 or k > n) {
-			return 0; // error
-		}
+	constexpr I choose(I n, I k) {
+		if (k > n) return 0;
+		if (k == 0 || k == n) return 1;
+		if (k > n - k) k = n - k;  // Optimization
 
-		if (k == 0 or k == n) {
-			return 1;
+		I result = 1;
+		for (I i = 0; i < k; ++i) {
+			result *= (n - i);
+			result /= (i + 1);
 		}
-		if (2 * k > n) {
-			k = n - k;
-		}
-
-		return choose(n - 1, k - 1) + choose(n - 1, k);
-	}
+		return result;
+	}	
 	static_assert(choose(0, 0) == 1);
 	static_assert(choose(4, 2) == 6);
 	static_assert(choose(2, 4) == 0);
 
-	// V_t = v in { 0, 1, ..., t }
+	// V_t = v where v in { 0, 1, ..., t }
 	template<std::signed_integral I>
 	struct atom {
 		I t, v;
 		constexpr atom(I t, I v)
 			: t(t), v(v)
 		{
-			// ENSURE(v <= t)
+			// ENSURE(0 <= v and v <= t)
 		}
 		constexpr bool operator==(const atom&) const = default;
 	};
+	static_assert(atom(0, 0) == atom(0, 0));
 	static_assert(atom<signed>(0, 0) == atom<signed>(0, 0));
 	static_assert(atom<signed>(1, 0) != atom<signed>(2, 1));
 
@@ -62,59 +60,12 @@ namespace sum::binomial {
 	// Atoms of A_t contained in V_k = j.
 	// iterator from atom(t,j) to atom(t, j + (t - k)) in A_t
 	template<std::signed_integral I>
-	class atoms {
-		I t, j, k, i;
-	public:
-		using iterator_category = std::forward_iterator_tag;
-		using value_type = atom<I>;
-		using difference_type = std::ptrdiff_t;
-		using pointer = atom<I>*;
-		using reference = atom<I>&;
+	constexpr auto atoms(I n, atom<I> A)
+	{
+		return std::views::iota(A.v, A.v + (n - A.t) + 1)
+			 | std::views::transform([n](I i) { return atom(n, i); });
+	}
 
-		constexpr atoms(I t, I j, I k, I i)
-			: t(t), j(j), k(k), i(i)
-		{
-			// ENSURE(k <= t);
-		}
-		constexpr atoms(I t, atom<I> A)
-			: atoms(t, A.v, A.t, A.v)
-		{ }
-
-		constexpr bool operator==(const atoms&) const = default;
-
-		constexpr atoms begin() const noexcept
-		{
-			return atoms(t, j, k, j);
-		}
-		constexpr atoms end() const noexcept
-		{
-			return atoms(t, j, k, j + (t - k) + 1);
-		}
-
-		constexpr operator bool() const
-		{
-			return j <= i and i <= j + (t - k);
-		}
-		constexpr value_type operator*() const
-		{
-			return atom(t, i);
-		}
-		constexpr atoms& operator++()
-		{
-			++i;
-
-			return *this;
-		}
-		constexpr atoms operator++(int)
-		{
-			auto temp = *this;
-			operator++();
-
-			return temp;
-		}
-	};
-	//static_assert(atoms(1, 2) == atoms(1, 2));
-	//static_assert(atoms(1, 2) != atoms(2, 1));
 
 	// (f(V_n) P)|A_k
 	template<class F, std::signed_integral I> //, class Policy = std::execution::unsequenced_policy)

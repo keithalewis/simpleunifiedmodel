@@ -5,6 +5,8 @@ and $\Omega$ the set of all possible outcomes.
 Let $(𝒜_t)_{t\in T})$ be partitions of $\Omega$ 
 representing information available at time $t$.
 
+## Market
+
 Every arbitrage-free model of prices $(X_t)$ and cash flows
 $(C_t)$ for $t\in T$ indexed by instruments $I$ has the form
 
@@ -24,7 +26,9 @@ If $X_u D_u$ goes to zero as
 $u$ goes to infinity, this says price is the discounted
 value of future cash flows (Graham-Todd).
 
-Given a trading strategy purchasing $(\Gamma_j)$ shares
+## Trading
+
+Given a trading strategy of purchasing $(\Gamma_j)$ shares
 at increasing stopping times $\tau_j$ the position
 at time $t$ is 
 
@@ -35,6 +39,8 @@ $$
 Note the strict inequality. It takes some time for a trade to settle into a position.
 Note also that $\Delta_t + \Gamma_t = \Delta_{t + \epsilon}$
 for sufficiently small $\epsilon > 0$.
+
+## Accounting
 
 The value (or mark-to-market) of the
 strategy at time $t$ is its liquidation value
@@ -63,6 +69,8 @@ and cash flows in (1) correponds amount in (2)
 
 **Trading strategies create synthetic market instruments.**
 
+## Hedging
+
 If a cash-settled derivative pays $\hat{A_j}$ at
 increasing stopping times $\hat{\tau}_j$ then its value
 at time $t$ is determined by
@@ -75,7 +83,7 @@ _if_ we can find a trading strategy with $A_t - \hat{A}_j 1(t = \hat{\tau}_j) = 
 for all $t\in T$. [^1]
 
 [^1]: In general this is not possible. An area for future research
-is to find trading strategies that make the difference
+is to find trading strategies making the difference
 white noise with miniumum variance.
 
 Since $V_t = (\Delta_t + \Gamma_t)\cdot X_t$ we have the
@@ -124,8 +132,7 @@ $$
 
 ### Required Functions
 
-Return all atoms of $ℬ$ contained in $A\in 𝒜$  
-$\text{atoms}_ℬ\colon 𝒜\to 2^ℬ$.
+Return all atoms of $𝒜_u$ contained in $A\in 𝒜_t$ for $t < u$.
 
 The measure $f\mu\in ba(𝒜)$  
 $\text{meas}\colon B(ℬ)\times ba(ℬ)\to ba(𝒜)$.
@@ -138,22 +145,30 @@ $$
 
 ## Binomial Model
 
-The sample space $\Omega = \{0,1\}^𝑵$ is the set of all sequences of 0's and 1's
-and $𝑵 = \{0, 1, 2, \ldots\}$. Given $\omega\in\Omega$
+The sample space $\Omega = \{0,1\}^𝑵$ is the set of all sequences 
+of 0's and 1's and $𝑵 = \{0, 1, 2, \ldots\}$. 
+Given $\omega\in\Omega$
 define $V_n(\omega) = \sum_{j\le n} \omega_j$. There is a probability
 measure on $\Omega$ with $P(V_n = k) = C(n,k)/2^n$ where
-$C(n,k) = n!/k!(n - k)!$. Define random walks $W_n = 2V_n - n$.
+$C(n,k) = n!/k!(n - k)!$. 
+
+The partition at time $n$ is $𝒜_n = {0,1,\dots,n}$. 
+For $j\in 𝒜_n$ this represents the information $V_n = j$.
+
+If $V_k = j$ then the atoms of $𝒜_n$ given this information
+are $V_n = i$ for $i = j, j + 1, \ldots, j + (n - k)$.
+
+Define the symmetrice random walk $W_n = 2V_n - n$.
 Note $W_n$ goes from $-n$ to $n$ in steps of size 2 as
-$V_n$ goes from $0$ to $n$. We will use the fact $W_n P$ is a martingale measure.
+$V_n$ goes from $0$ to $n$. 
+We will use the fact $W_n P$ is a martingale measure.
 
-The partition at time $n$ is $𝒜_n = {0,1,\dots,n}$. For $j\in 𝒜_n$
-this represents the information $V_n = j$.
+## Brownian Motion
 
-If $V_k = i$ then the atoms of $𝒜_n$ given this information
-are $V_n = j$ for $j = i, i + 1, \ldots, i + (n - i)$.
-
-If $W_k = i$ then the atoms of $𝒜_n$ given this information
-are $W_n = j$ for $j = i - (n - i), i - (n - 1) + 2, \ldots, i + (n - i)$.
+Brownian motion is the limit of symmetric random walk.
+$$
+B_t = lim_{n\to\infty} W_{\floor{t/n}} 
+$$
 
 ## European Option
 

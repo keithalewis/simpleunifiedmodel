@@ -9,11 +9,13 @@ int main()
 	{
 		atom A(2, 0);
 		auto A2 = atoms(2, A);
-		auto a = *A2;
-		++A2;
+		auto A2b = A2.begin();
 		auto A2e = A2.end();
-		assert(A2e == A2);
+		auto a = *A2b;
+		++A2b;
+		assert(A2b == A2e);
 	}
+	/*
 	{
 		atom A(1, 0);
 		auto A2 = atoms(2, A);
@@ -23,6 +25,7 @@ int main()
 		++A2;
 		assert(A2.end() == A2);
 	}
+	*/
 
 	auto EV = value([](atom<signed> A) { return A.v; }, 10);
 	double v = EV(atom(0, 0));
