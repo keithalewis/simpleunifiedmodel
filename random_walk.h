@@ -135,17 +135,34 @@ namespace sum::random_walk {
 
 			template<class F>
 			static auto operator()(F f, I n) {
-				return V(f, n) | std::views::transform(from_binomial<I>);
+				return V(f, n) | std::views::transform(to_binomial<I>);
 			}
 		};
 
+		// Random walk approximation to Brownian motion parameterized by step size dt.
+		// B_t = W_floor(nt) / sqrt(n) where n = floor(nt/dt)
+		namespace brownian {
+
+			// Brownian motion atom B_t = v
+			template<std::signed_integral I>
+			struct atom {
+				double t, v, dt;
+
+				constexpr atom(double t, double v, double dt = 1)
+					: t(t), v(v), dt(dt)
+				{ }
+				// Assumes binomial atom
+				constexpr atom(random_walk::atom<I> A, double dt = 1)
+					: atom(t/dt, std::sqrt(t/dt), dt)
+				{ }
+
+				bool operator==(const atom&) const = default;
+			};
+
+
+		} // namespace brownian
+
 	} // namespace binomial
-
-	// Random walk approximation to Brownian motion parameterized by step size dt.
-	namespace brownian {
-
-
-	} // namespace brownian
 
 } // namespace sum::random_walk
 
