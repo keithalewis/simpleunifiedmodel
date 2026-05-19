@@ -1,8 +1,8 @@
 // sum.cpp
 #include <cassert>
-#include "binomial.h"
+#include "random_walk.h"
 
-using namespace sum::binomial;
+using namespace sum::random_walk;
 
 int main()
 {
@@ -27,7 +27,7 @@ int main()
 	}
 	*/
 
-	auto EV = value([](atom<signed> A) { return A.v; }, 10);
+	auto EV = value([](atom<signed> A) { return A.k; }, 10);
 	double v = EV(atom(0, 0));
 	v = EV(atom(10, 0));
 	v = EV(atom(10, 5));

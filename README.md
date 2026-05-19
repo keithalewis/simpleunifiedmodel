@@ -168,8 +168,19 @@ We will use the fact $W_n P$ is a martingale measure.
 Brownian motion is the limit of symmetric random walk.
 
 $$
-B_t = lim_{n\to\infty} W_{\floor{t/n}} 
+B_t = lim_{n\to\infty} W_{\lfloor{t n}\rfloor} / \sqrt{n}
 $$
+
+Note the variance of the right-hand side is approximately $(tn)/n = t$.
+
+A piecewise linear (but not adapted?) approximation is (Donsaker?)
+
+$$
+[W_{\lfloor tn \rfloor} + (nt - \lfloor nt \rfloor) X_{lceil nt\rceil}]/\sqrt{n} 
+$$
+
+We parameterize the approximation using $\Delta t$ and $n = \lfloor nt/\Delta t \rfloor$
+and values $-n/\sqrt{n}, (-n + 2)/\sqrt{n}, \ldots, n/\sqrt{n}$.
 
 ## European Option
 

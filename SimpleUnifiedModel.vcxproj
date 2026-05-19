@@ -191,7 +191,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="binomial.h" />
+    <ClInclude Include="random_walk.h" />
     <ClInclude Include="sum.h" />
   </ItemGroup>
   <ItemGroup>

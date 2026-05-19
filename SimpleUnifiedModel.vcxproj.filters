@@ -18,7 +18,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="binomial.h">
+    <ClInclude Include="random_walk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sum.h">

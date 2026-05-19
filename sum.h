@@ -28,13 +28,13 @@ namespace sum {
 
 	// multiply a function by a measure
 
-	// stopping time {tau = t} atoms in A_t  
+	// stopping time {tau = n} atoms in A_t  
 	template<template<typename> typename Atom, typename Time>
 	concept StoppingTime = requires(Time t) {
 		{ At(t) } -> Atoms<Atom<Time>>
 	};
 
-	// V_t D_t = (V_u D_u + \sum_{t < tau_j <= u} C_j D_tau_j)|A_t. 
+	// V_t D_t = (V_u D_u + \sum_{n < tau_j <= u} C_j D_tau_j)|A_t. 
 
 } // namespace sum
 #endif // 0
