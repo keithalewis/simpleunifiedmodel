@@ -50,7 +50,7 @@ namespace sum::random_walk {
 	template<std::signed_integral I>
 	constexpr double P(atom<I> A)
 	{
-		return std::ldexp(choose(A.n, A.k), -A.n);
+		return std::ldexp(choose(A.n, A.k), -A.n); // TODO: ldexp not constexpr in MSVC
 	}
 
 	// Atoms of A_n contained in V_k = j.
@@ -67,6 +67,9 @@ namespace sum::random_walk {
 	constexpr auto value(F f, I n)
 	{
 		return [f, n](atom<I> A) {
+			if (n > A.n) { // restrict to A_k, k <= n
+				return std::numeric_limits<double>::quiet_NaN();
+			}
 			double v = 0;
 			for (atom<I> B : atoms(n, A)) {
 				v += f(B) * P(B);
@@ -81,39 +84,68 @@ namespace sum::random_walk {
 		};
 		*/
 	}
-		// Two-sided random walk W_n = 2 V_n - n
-		namespace binomial {
 
-			// Convert one-sided to two-sided atom.
-			template<std::signed_integral I>
-			constexpr atom<I> to_binomial(atom<I> A)
+	// one-sided random walk measure
+	template<std::signed_integral I>
+	struct V {
+		// Measure of A
+		static double operator()(atom<I> A)
+		{
+			return P(A);
+		}
+		// Return measure of V|A_n multiplied by f restricted to A_k, k <= n.
+		template<class F>
+		static auto operator()(F f, I n) // TODO: replace n by stopping time.
+		{
+			return value(f, n);
+		}
+	};
+
+	// Two-sided random walk W_n = 2 V_n - n for binomial model.
+	namespace binomial {
+
+		// Convert one-sided to two-sided atom.
+		template<std::signed_integral I>
+		constexpr atom<I> to_binomial(atom<I> A)
+		{
+			return atom<I>(A.n, 2 * A.k - A.n);
+		}
+		static_assert(to_binomial(atom(2, 1)) == atom(2, 0));
+		static_assert(to_binomial(atom(3, 1)) == atom(3, -1));
+
+		// Convert two-sided to one-sided atom.
+		template<std::signed_integral I>
+		constexpr atom<I> from_binomial(atom<I> A)
+		{
+			// ENSURE((A.n + A.k) % 2 == 0);
+			return atom(A.n, (A.n + A.k) / 2);
+		}
+		static_assert(atom(2, 1) == from_binomial(atom(2, 0)));
+		static_assert(atom(3, 1) == from_binomial(atom(3, -1)));
+
+		// Measure on atoms of a partition.
+		//<template<typename> class Atom, typename Time>
+		template<std::signed_integral I>
+		class W {
+		public:
+			static double operator()(atom<I> A)
 			{
-				return atom(A.n, 2 * A.k - A.n);
+				return V(from_binomial(A));
 			}
-			static_assert(to_binomial(atom(2, 1)) == atom(2, 0));
-			static_assert(to_binomial(atom(3, 1)) == atom(3, -1));
 
-			// Measure on atoms of a partition.
-			template<template<typename> class Atom, typename Time>
-			class W {
-			public:
-				double operator()(Atom<Time> A)
-				{
-					return 0;
-				}
-				// Iterator over atoms of A_t containing A
-				auto atoms(Time t, Atom<Time> A) {
-					return 0;
-				}
-			};
+			template<class F>
+			static auto operator()(F f, I n) {
+				return V(f, n) | std::views::transform(from_binomial<I>);
+			}
+		};
 
-		} // namespace binomial
+	} // namespace binomial
 
-		// Random walk approximation to Brownian motion parameterized by step size dt.
-		namespace brownian {
+	// Random walk approximation to Brownian motion parameterized by step size dt.
+	namespace brownian {
 
 
-		} // namespace brownian
+	} // namespace brownian
 
 } // namespace sum::random_walk
 
