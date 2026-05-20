@@ -7,6 +7,7 @@
 
 #define ENSURE_HASH(x) #x
 #define ENSURE_HASH_(x) ENSURE_HASH(x)
+// constexpr functions cannot
 #define ENSURE(x) { if(!std::is_constant_evaluated() and !(x)) throw std::runtime_error(ENSURE_HASH_(x)); }
 
 namespace sum::random_walk {
@@ -16,13 +17,14 @@ namespace sum::random_walk {
 	constexpr I choose(I n, I k) {
 		if (k < 0 or k > n) return 0; // error
 		if (k == 0 || k == n) return 1;
-		if (k > n - k) k = n - k;  // Optimization
+		if (k > n - k) k = n - k;  // choose(n, k) = choose(n, n - k)
 
 		I Cnk = 1;
 		for (I i = 0; i < k; ++i) {
 			Cnk *= (n - i);
 			Cnk /= (i + 1); // exact integer division
 		}
+
 		return Cnk;
 	}
 	static_assert(choose(0, 0) == 1);
@@ -33,7 +35,7 @@ namespace sum::random_walk {
 	// P(X_j = 0) = 1/2 = P(X_j = 1)
 	// V_n = X_1 + ... + X_n
 	// Atom is the set {V_n = k} where k in { 0, 1, ..., n }
-	template<std::signed_integral I>
+	template<std::signed_integral I> // TODO: require n to be std::unsigned_integral?
 	struct atom {
 		I n, k;
 		constexpr atom(I n, I k)
@@ -64,7 +66,7 @@ namespace sum::random_walk {
 
 	// (f(V_n) P)|A_k is a replacement for expected value E[f(V_n)|A_k]
 	template<class F, std::signed_integral I> //, class Policy = std::execution::unsequenced_policy)
-	constexpr auto value(F f, I n)
+	constexpr auto value(F f, I n) // TODO: replace n by a stopping time.
 	{
 		return [f, n](atom<I> A) {
 			if (n > A.n) { // restrict to A_k, k <= n
@@ -93,9 +95,9 @@ namespace sum::random_walk {
 		{
 			return P(A);
 		}
-		// Return measure of V|A_n multiplied by f restricted to A_k, k <= n.
+		// Return measure V|A_n multiplied by f restricted to A_k, k <= n.
 		template<class F>
-		static auto operator()(F f, I n) // TODO: replace n by stopping time.
+		static auto operator()(F f, I n) 
 		{
 			return value(f, n);
 		}
@@ -104,24 +106,24 @@ namespace sum::random_walk {
 	// Two-sided random walk W_n = 2 V_n - n for binomial model.
 	namespace binomial {
 
-		// Convert one-sided to two-sided atom.
 		template<std::signed_integral I>
-		constexpr atom<I> to_binomial(atom<I> A)
+		struct atom : public random_walk::atom<I>
 		{
-			return atom<I>(A.n, 2 * A.k - A.n);
-		}
-		static_assert(to_binomial(atom(2, 1)) == atom(2, 0));
-		static_assert(to_binomial(atom(3, 1)) == atom(3, -1));
+			using random_walk::atom<I>::atom;
 
-		// Convert two-sided to one-sided atom.
-		template<std::signed_integral I>
-		constexpr atom<I> from_binomial(atom<I> A)
-		{
-			// ENSURE((A.n + A.k) % 2 == 0);
-			return atom(A.n, (A.n + A.k) / 2);
-		}
-		static_assert(atom(2, 1) == from_binomial(atom(2, 0)));
-		static_assert(atom(3, 1) == from_binomial(atom(3, -1)));
+			constexpr atom(const random_walk::atom<I> A)
+				: random_walk::atom<I>(A.n, 2 * A.k - A.n)
+			{}
+			constexpr operator random_walk::atom<I>() const
+			{
+				using random_walk::atom<I>::n; 
+				using random_walk::atom<I>::k;
+				// ensure n + k is even
+				return random_walk::atom<I>(n, (n + k) / 2);
+			}
+		};
+		//static_assert(atom(0, 0) == random_walk::atom(0, 0));
+		//static_assert(atom(random_walk::atom(2, 1)) == random_walk::atom(2, 0));
 
 		// Measure on atoms of a partition.
 		//<template<typename> class Atom, typename Time>
@@ -130,12 +132,14 @@ namespace sum::random_walk {
 		public:
 			static double operator()(atom<I> A)
 			{
-				return V(from_binomial(A));
+				return V(A); // converts to random_walk::atom
 			}
 
+			// (f(W_n)|A_k
 			template<class F>
 			static auto operator()(F f, I n) {
-				return V(f, n) | std::views::transform(to_binomial<I>);
+				return V(f, n) | std::views::transform(
+					[](random_walk::atom A) { return binomial::atom(A); });
 			}
 		};
 
@@ -143,22 +147,35 @@ namespace sum::random_walk {
 		// B_t = W_floor(nt) / sqrt(n) where n = floor(nt/dt)
 		namespace brownian {
 
-			// Brownian motion atom B_t = v
+			// Brownian motion atom B_t = w
 			template<std::signed_integral I>
 			struct atom {
-				double t, v, dt;
+				double t, w, dt; // TODO: encapsulate
 
-				constexpr atom(double t, double v, double dt = 1)
-					: t(t), v(v), dt(dt)
+				constexpr atom(double t, double w, double dt = 1)
+					: t(t), w(w), dt(dt)
 				{ }
-				// Assumes binomial atom
-				constexpr atom(random_walk::atom<I> A, double dt = 1)
-					: atom(t/dt, std::sqrt(t/dt), dt)
+				constexpr atom(binomial::atom<I> A, double dt = 1)
+					: atom(t / dt, A.n/std::sqrt(t / dt), dt)
 				{ }
 
 				bool operator==(const atom&) const = default;
 			};
 
+			template<std::signed_integral I>
+			class B {
+				double dt;
+			public:
+				double operator()(brownian::atom<I>) const
+				{
+					return  0;
+				}
+				template<class F>
+				auto operator()(F f, double t) const
+				{
+					return 0;
+				}
+			};
 
 		} // namespace brownian
 
