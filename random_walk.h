@@ -116,10 +116,8 @@ namespace sum::random_walk {
 			{}
 			constexpr operator random_walk::atom<I>() const
 			{
-				using random_walk::atom<I>::n; 
-				using random_walk::atom<I>::k;
 				// ensure n + k is even
-				return random_walk::atom<I>(n, (n + k) / 2);
+				return random_walk::atom<I>(this->n, (this->n + this->k) / 2);
 			}
 		};
 		//static_assert(atom(0, 0) == random_walk::atom(0, 0));
@@ -156,7 +154,7 @@ namespace sum::random_walk {
 					: t(t), w(w), dt(dt)
 				{ }
 				constexpr atom(binomial::atom<I> A, double dt = 1)
-					: atom(t / dt, A.n/std::sqrt(t / dt), dt)
+					: atom(A.n * t, A.k / std::sqrt(A.n * t), dt)
 				{ }
 
 				bool operator==(const atom&) const = default;
