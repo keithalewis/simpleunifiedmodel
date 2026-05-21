@@ -2,7 +2,7 @@
 
 Let $T$ be a set of trading times, $I$ the set of all instruments,
 and $\Omega$ the set of all possible outcomes.
-Let $(𝒜_t)_{t\in T})$ be partitions of $\Omega$ 
+Let $(𝒜_t)_{t\in T}$ be partitions of $\Omega$ 
 representing information available at time $t$.
 
 ## Market
@@ -172,13 +172,6 @@ B_t = lim_{n\to\infty} W_{\lfloor{t n}\rfloor} / \sqrt{n}
 $$
 
 Note the variance of the right-hand side is approximately $(tn)/n = t$.
-
-A piecewise linear (but not adapted?) approximation is (Donsaker?)
-
-$$
-[W_{\lfloor tn \rfloor} + (nt - \lfloor nt \rfloor) X_{lceil nt\rceil}]/\sqrt{n} 
-$$
-
 We parameterize the approximation using $\Delta t$ and $n = \lfloor nt/\Delta t \rfloor$
 and values $-n/\sqrt{n}, (-n + 2)/\sqrt{n}, \ldots, n/\sqrt{n}$.
 
