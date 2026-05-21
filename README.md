@@ -7,14 +7,23 @@ If you know about finance but are not a mathematician see https://keithalewis.gi
 The talk I gave at the Museum of Mathematice in December 2025 is
 available at https://kalx.net/sum.html.
 
-This repository is for people who know something about turning equations into useful software.
+This repository is for people who know something about turning equations into 
+useful software.
+It is thorougly incomplete and just a starting point on my Quixotic quest to
+solve the most difficult problem in finance: how do we move forward
+from the huge and complicated system built vertically for equities,
+fixed income, convertable bonds, FX, comodities, structured products,
+futures, options,
+and other derivatives?
+
+Stephan Ross showed the way. You can't use copulas to solve this problem.
 
 Let $T$ be a set of trading times, $I$ the set of all instruments,
 and $\Omega$ the set of all possible outcomes.
 Let $(𝒜_t)_{t\in T}$ be partitions of $\Omega$ 
 representing information available at time $t$.
 
-## Market
+## Markete
 
 Every arbitrage-free model of prices $(X_t)$ and cash flows
 $(C_t)$ for $t\in T$ indexed by instruments $I$ has the form
