@@ -1,5 +1,14 @@
 # Simple Unified Model.
 
+For full details see https://keithalewis.github.io/math/sum.html
+
+If you know about finance but are not a mathematician see https://keithalewis.github.io/math/ross.html
+
+The talk I gave at the Museum of Mathematice in December 2025 is
+available at https://kalx.net/sum.html.
+
+This repository is for people who know something about turning equations into useful software.
+
 Let $T$ be a set of trading times, $I$ the set of all instruments,
 and $\Omega$ the set of all possible outcomes.
 Let $(𝒜_t)_{t\in T}$ be partitions of $\Omega$ 
