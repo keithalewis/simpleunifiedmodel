@@ -193,7 +193,7 @@ We will use the fact $W_n P$ is a martingale measure.
 Brownian motion is the limit of symmetric random walk.
 
 $$
-B_t = lim_{n\to\infty} W_{\lfloor{t n}\rfloor} / \sqrt{n}
+B_t = \lim_{n\to\infty} W_{\lfloor{t n}\rfloor} / \sqrt{n}
 $$
 
 Note the variance of the right-hand side is approximately $(tn)/n = t$.
