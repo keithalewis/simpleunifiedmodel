@@ -32,7 +32,7 @@ namespace sum::random_walk {
 	static_assert(choose(2, 4) == 0); // error
 
 	// One direction random walk.
-	// P(X_j = 0) = 1/2 = P(X_j = 1)
+	// P(X_j = 0) = 1/2 = P(X_j = 1) independent
 	// V_n = X_1 + ... + X_n
 	// Atom is the set {V_n = k} where k in { 0, 1, ..., n }
 	template<std::signed_integral I> // TODO: require n to be std::unsigned_integral?

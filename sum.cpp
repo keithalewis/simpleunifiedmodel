@@ -28,15 +28,22 @@ int test_atoms()
 	return 0;
 }
 
+int test_V()
+{
+	auto EV = value([](atom<signed> A) { return A.k; }, 10);
+
+	assert(EV(atom(0, 0)) == 5);
+	assert(EV(atom(10, 0)) == 0);
+	assert(EV(atom(10, 5)) == 5 * choose(10, 5) * pow(2, -10));
+	assert(EV(atom(10, 10)) == 10 * pow(2, -10));
+
+	return 0;
+}
+
 int main()
 {
 	assert(!test_atoms());
-
-	auto EV = value([](atom<signed> A) { return A.k; }, 10);
-	double v = EV(atom(0, 0));
-	v = EV(atom(10, 0));
-	v = EV(atom(10, 5));
-	v = EV(atom(10, 10));
+	assert(!test_V());
 
 	return 0;
 }

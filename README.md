@@ -1,12 +1,5 @@
 # Simple Unified Model.
 
-For full details see https://keithalewis.github.io/math/sum.html
-
-If you know about finance but are not a mathematician see https://keithalewis.github.io/math/ross.html
-
-The talk I gave at the Museum of Mathematics in December 2025 is
-available at https://kalx.net/sum.html.
-
 There is a huge, unsolved problem in finance: How to value, hedge, and
 manage the risk of portfolios of any collection of instruments.
 Historically, banks and hedge funds have desks dedicated to 
@@ -14,20 +7,25 @@ each product area such as
 equities, fixed income, commodities, FX, etc. The modern world
 requires a framework for understanding the correlation between these. 
 A common approach is to specify a copula. The Gaussian copula
-led to the infamous 2008 debacle in structured credit markets. 
+led to the infamous 2008 debacle in structured credit markets.
+
+Copulas are the wrong tool for this problem.
+Stephan Ross showed the way. 
 
 This repository is for people who know something about turning equations into 
 useful software.
-It is thorougly incomplete and just a starting point on my Quixotic quest to
-solve the most difficult problem in finance: how do we move forward
-from the huge and complicated system built vertically for equities,
-fixed income, convertable bonds, FX, comodities, structured products,
-futures, options,
-and other derivatives?
+It is thorougly incomplete and just a starting point for attacking the most difficult problem in finance.
 
-Stephan Ross showed the way. You can't use copulas to solve this problem.
+For full details see https://keithalewis.github.io/math/sum.html
 
-Let $T$ be a set of trading times, $I$ the set of all instruments,
+If you know about finance but are not a mathematician see https://keithalewis.github.io/math/ross.html
+
+The talk I gave at the Museum of Mathematics in December 2025 is
+available at https://kalx.net/sum.html.
+
+## Model
+
+Let $T$ be the set of trading times, $I$ the set of all instruments,
 and $\Omega$ the set of all possible outcomes.
 Let $(𝒜_t)_{t\in T}$ be partitions of $\Omega$ 
 representing information available at time $t$.
