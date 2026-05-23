@@ -4,8 +4,17 @@ For full details see https://keithalewis.github.io/math/sum.html
 
 If you know about finance but are not a mathematician see https://keithalewis.github.io/math/ross.html
 
-The talk I gave at the Museum of Mathematice in December 2025 is
+The talk I gave at the Museum of Mathematics in December 2025 is
 available at https://kalx.net/sum.html.
+
+There is a huge, unsolved problem in finance: How to value, hedge, and
+manage the risk of portfolios of any collection of instruments.
+Historically, banks and hedge funds have desks dedicated to 
+each product area such as
+equities, fixed income, commodities, FX, etc. The modern world
+requires a framework for understanding the correlation between these. 
+A common approach is to specify a copula. The Gaussian copula
+led to the infamous 2008 debacle in structured credit markets. 
 
 This repository is for people who know something about turning equations into 
 useful software.
@@ -23,7 +32,7 @@ and $\Omega$ the set of all possible outcomes.
 Let $(𝒜_t)_{t\in T}$ be partitions of $\Omega$ 
 representing information available at time $t$.
 
-## Markete
+## Market
 
 Every arbitrage-free model of prices $(X_t)$ and cash flows
 $(C_t)$ for $t\in T$ indexed by instruments $I$ has the form
@@ -105,7 +114,7 @@ is to find trading strategies making the difference
 white noise with miniumum variance.
 
 Since $V_t = (\Delta_t + \Gamma_t)\cdot X_t$ we have the
-Frechet derivative $D_{X_t} V_t \Delta_t + \Gamma_t$.
+Frechet derivative $D_{X_t} V_t = \Delta_t + \Gamma_t$.
 Since the position at time 0 is $\Delta_0 = 0$ this gives us
 our first trade $\Gamma_0 D_{X_0} V_0$.
 At times greater than 0 we have $\Gamma_t = D_{X_t} V_t - \Delta_t$.

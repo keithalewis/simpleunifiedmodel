@@ -61,7 +61,7 @@ namespace sum::random_walk {
 	constexpr auto atoms(I n, atom<I> A) // TODO: atom, n ?
 	{
 		return std::views::iota(A.k, A.k + (n - A.n) + 1)
-			| std::views::transform([n](I i) { return atom(n, i); });
+			| std::views::transform([n](I j) { return atom(n, j); });
 	}
 
 	// (f(V_n) P)|A_k is a replacement for expected value E[f(V_n)|A_k]
@@ -69,7 +69,7 @@ namespace sum::random_walk {
 	constexpr auto value(F f, I n) // TODO: replace n by a stopping time.
 	{
 		return [f, n](atom<I> A) {
-			if (n > A.n) { // restrict to A_k, k <= n
+			if (A.n > n) { // restrict to A_k, k <= n
 				return std::numeric_limits<double>::quiet_NaN();
 			}
 			double v = 0;

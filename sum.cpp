@@ -4,28 +4,33 @@
 
 using namespace sum::random_walk;
 
-int main()
+int test_atoms()
 {
 	{
-		atom A(2, 0);
-		auto A2 = atoms(2, A);
-		auto A2b = A2.begin();
-		auto A2e = A2.end();
-		auto a = *A2b;
-		++A2b;
-		assert(A2b == A2e);
+		atom A(0, 0);
+		atom A2{ A };
+		assert(A2 == A);
+		A = A2;
+		assert(!(A != A2));
 	}
-	/*
 	{
-		atom A(1, 0);
-		auto A2 = atoms(2, A);
-		assert(atom(2,0) == *A2);
-		++A2;
-		assert(atom(2, 1) == *A2);
-		++A2;
-		assert(A2.end() == A2);
+		//atom A(1, 0);
+		//auto A2 = atoms(2, A);
+		auto A2 = atoms(2, atom(1,0));
+		auto A3 = A2.begin();
+		assert(atom(2, 0) == *A3);
+		++A3;
+		assert(atom(2, 1) == *A3);
+		++A3;
+		assert(A2.end() == A3);
 	}
-	*/
+
+	return 0;
+}
+
+int main()
+{
+	assert(!test_atoms());
 
 	auto EV = value([](atom<signed> A) { return A.k; }, 10);
 	double v = EV(atom(0, 0));
