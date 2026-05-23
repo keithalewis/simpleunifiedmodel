@@ -7,16 +7,18 @@
 
 #define ENSURE_HASH(x) #x
 #define ENSURE_HASH_(x) ENSURE_HASH(x)
-// constexpr functions cannot
-#define ENSURE(x) { if(!std::is_constant_evaluated() and !(x)) throw std::runtime_error(ENSURE_HASH_(x)); }
+#define ENSURE(x) { \
+	if constexpr (!std::is_constant_evaluated()) { \
+		!(x) || throw std::runtime_error(ENSURE_HASH_(x)); }}
 
 namespace sum::random_walk {
-
+	
 	// Number of ways to choose k items from a collection of n items
 	template<std::signed_integral I>
 	constexpr I choose(I n, I k) {
+		// TODO: memoize?
 		if (k < 0 or k > n) return 0; // error
-		if (k == 0 || k == n) return 1;
+		if (k == 0 || k == n) return 1; // base cases
 		if (k > n - k) k = n - k;  // choose(n, k) = choose(n, n - k)
 
 		I Cnk = 1;
@@ -32,7 +34,7 @@ namespace sum::random_walk {
 	static_assert(choose(2, 4) == 0); // error
 
 	// One direction random walk.
-	// P(X_j = 0) = 1/2 = P(X_j = 1) independent
+	// P(X_j = 0) = P(X_j = 1) = 1/2 independent
 	// V_n = X_1 + ... + X_n
 	// Atom is the set {V_n = k} where k in { 0, 1, ..., n }
 	template<std::signed_integral I> // TODO: require n to be std::unsigned_integral?
@@ -61,7 +63,7 @@ namespace sum::random_walk {
 	constexpr auto atoms(I n, atom<I> A) // TODO: atom, n ?
 	{
 		return std::views::iota(A.k, A.k + (n - A.n) + 1)
-			| std::views::transform([n](I j) { return atom(n, j); });
+			 | std::views::transform([n](I j) { return atom(n, j); });
 	}
 
 	// (f(V_n) P)|A_k is a replacement for expected value E[f(V_n)|A_k]
@@ -77,7 +79,7 @@ namespace sum::random_walk {
 				v += f(B) * P(B);
 			}
 			return v;
-			};
+		};
 		/*
 		return [f, n](atom<I> A) { // A in A_k
 			atoms An(n, A);
